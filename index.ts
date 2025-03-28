@@ -1,6 +1,6 @@
 import "urlpattern-polyfill";
-import { handler } from "./handlers";
-import { cleanupOldFiles } from "./handlers/cleanup";
+import { handler } from "./app";
+import { cleanupOldFiles } from "./app/cleanup";
 
 // Run cleanup every hour
 setInterval(cleanupOldFiles, 60 * 60 * 1000);

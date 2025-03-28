@@ -1,7 +1,7 @@
-import { handleHome } from "./home";
-import { handleUpload } from "./upload";
-import { handleFile } from "./file";
-import { handleDownload } from "./download";
+import { handleHome } from "./home-handler";
+import { handleUpload } from "./upload-handler";
+import { handleFile } from "./file-handler";
+import { handleDownload } from "./download-handler";
 
 // Define URL patterns
 const patterns = {

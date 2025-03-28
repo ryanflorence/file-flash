@@ -1,0 +1,1 @@
+- [ ] `file-storage/local`: remove folders from storage when empty
