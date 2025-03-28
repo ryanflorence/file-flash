@@ -22,7 +22,7 @@ resource "digitalocean_droplet" "file_flash" {
               apt-get upgrade -y
 
               # Install curl and other dependencies
-              apt-get install -y curl git
+              apt-get install -y curl git nginx
 
               # Install Bun
               curl -fsSL https://bun.sh/install | bash
@@ -47,16 +47,37 @@ resource "digitalocean_droplet" "file_flash" {
               Type=simple
               User=root
               WorkingDirectory=/opt/file-flash
-              ExecStart=/root/.bun/bin/bun run src/index.ts
+              ExecStart=/root/.bun/bin/bun run index.ts
               Restart=always
 
               [Install]
               WantedBy=multi-user.target
               EOL
 
-              # Start the service
+              # Configure Nginx
+              cat > /etc/nginx/sites-available/file-flash << 'EOL'
+              server {
+                  listen 80;
+                  server_name _;
+
+                  location / {
+                      proxy_pass http://localhost:3000;
+                      proxy_http_version 1.1;
+                      proxy_set_header Upgrade $http_upgrade;
+                      proxy_set_header Connection 'upgrade';
+                      proxy_set_header Host $host;
+                      proxy_cache_bypass $http_upgrade;
+                  }
+              }
+              EOL
+
+              ln -s /etc/nginx/sites-available/file-flash /etc/nginx/sites-enabled/
+              rm /etc/nginx/sites-enabled/default
+
+              # Start the services
               systemctl enable file-flash
               systemctl start file-flash
+              systemctl restart nginx
 
               # Setup cleanup cron job
               echo "0 * * * * /opt/file-flash/scripts/cleanup.sh" | crontab -
