@@ -22,7 +22,7 @@ resource "digitalocean_droplet" "file_flash" {
               apt-get upgrade -y
 
               # Install curl and other dependencies
-              apt-get install -y curl
+              apt-get install -y curl git
 
               # Install Bun
               curl -fsSL https://bun.sh/install | bash
@@ -31,8 +31,8 @@ resource "digitalocean_droplet" "file_flash" {
               mkdir -p /opt/file-flash
               cd /opt/file-flash
 
-              # Clone the repository (you'll need to replace this with your actual repo)
-              # git clone <your-repo-url> .
+              # Clone the repository
+              git clone https://github.com/ryanflorence/file-flash.git .
 
               # Install dependencies
               bun install
