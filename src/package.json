@@ -1,0 +1,21 @@
+{
+  "name": "src",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun run --watch index.ts",
+    "start": "bun run index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@elysiajs/html": "^1.2.0",
+    "@elysiajs/static": "^1.2.0",
+    "urlpattern-polyfill": "^10.0.0"
+  }
+}
